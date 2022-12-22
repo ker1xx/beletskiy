@@ -9,7 +9,7 @@ namespace beletskiy
 {
     internal class Class1
     {
-        public Class1(int a,int b,string c,string d)
+        public Class1(int a,string b,string c,string d)
         {
             id = a;
             role = b;
@@ -18,7 +18,7 @@ namespace beletskiy
 
         }
         public int id;
-        public int role;
+        public string role;
         public string nick;
         public string parol;
 

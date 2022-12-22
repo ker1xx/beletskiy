@@ -8,97 +8,83 @@ namespace beletskiy
 {
     internal class Class3 : ICrud
     {
-         static int stroka = 4;
-        ConsoleKeyInfo klavisha;
-        static void admin()
+        private static ConsoleKeyInfo klavisha;
+        private static int pozitsia = 3;
+        public void admin()
         {
-            Console.SetCursorPosition((int)admin_enum.name, 4);
-            while (y.key.Key != ConsoleKey.F10)
+            while (klavisha.Key != ConsoleKey.Escape)
             {
                 Class2.Human = Class2.MyDeserialize<List<Class1>>("Human.json");
                 Console.Clear();
-
-                Console.WriteLine("Добро пожаловать!");
-                arrows();
-                Console.SetCursorPosition(stolbec, pos);
-                if (y.key.Key == ConsoleKey.F1)
-                    Create();
-                else if (y.key.Key == ConsoleKey.F3)
-                    Update();
-                else if (y.key.Key == ConsoleKey.Delete)
-                    Delete();
-                else if (y.key.Key == ConsoleKey.F2)
+                zagolovok();
+                Console.SetCursorPosition(0, 6);
+                read();
+                if (klavisha.Key == ConsoleKey.UpArrow)
+                    goup();
+                if (klavisha.Key == ConsoleKey.DownArrow)
+                    godown();
+                if (klavisha.Key == ConsoleKey.F1)
+                    create();
+                else if (klavisha.Key == ConsoleKey.F3)
+                    update();
+                else if (klavisha.Key == ConsoleKey.Delete)
+                    delete();
+                else if (klavisha.Key == ConsoleKey.F5)
                     search();
-                else if (y.key.Key == ConsoleKey.Escape)
+                else if (klavisha.Key == ConsoleKey.Escape)
                     return;
                 Console.WriteLine("->");
-                y.key = Console.ReadKey();
+                klavisha = Console.ReadKey();
             }
         }
         public void create()
         {
             try
             {
-                 = 4;
-                stolbec = (int)admin_enum.name;
-                y.key = new ConsoleKeyInfo((char)ConsoleKey.A, ConsoleKey.A, false, false, false);
-                string newname = "";
-                string newpassword = "";
-                int newid = 0;
-                int newjobtitle = 0;
+                pozitsia = 3;
+                string parol = "";
+                string nick = "";
+                int id = 0;
+                string role = "";
                 int newname_length = 0;
                 int newpassword_length = 0;
                 int newid_length = 0;
                 int newjobtitle_length = 0;
                 Console.Clear();
-                admin_Person newperson = new admin_Person(newname, newpassword, newid, newjobtitle);
+                Class1 newperson = new Class1(id, role, nick, parol);
                 head();
-                Console.SetCursorPosition(stolbec, pos);
-                Console.Write("->");
-                while (y.key.Key != ConsoleKey.S)
+                Console.SetCursorPosition(2, 2);
+                Console.WriteLine("Имя");
+                Console.WriteLine("Пароль");
+                Console.WriteLine("Роль");
+                Console.WriteLine("ID");
+                Console.SetCursorPosition(70, 10);
+                Console.WriteLine("Для сохранения нажмите S");
+                Console.SetCursorPosition(3, 0);
+                while (klavisha.Key != ConsoleKey.S)
                 {
-                    Console.SetCursorPosition(70, 10);
-                    Console.WriteLine("Для сохранения нажмите S");
-                    Console.SetCursorPosition(stolbec, pos);
                     Console.Write("  ");
-                    if (y.key.Key == ConsoleKey.RightArrow)
-                    {
-                        if (stolbec == (int)admin_enum.id)
-                            stolbec = (int)admin_enum.job_title;
-                        if (stolbec == (int)admin_enum.password)
-                            stolbec = (int)admin_enum.id;
-                        if (stolbec == (int)admin_enum.name)
-                            stolbec = (int)admin_enum.password;
-                    }
-                    if (y.key.Key == ConsoleKey.LeftArrow)
-                    {
-                        if (stolbec == (int)admin_enum.name)
-                            stolbec = (int)admin_enum.name;
-                        if (stolbec == (int)admin_enum.password)
-                            stolbec = (int)admin_enum.name;
-                        if (stolbec == (int)admin_enum.id)
-                            stolbec = (int)admin_enum.password;
-                        if (stolbec == (int)admin_enum.job_title)
-                            stolbec = (int)admin_enum.id;
-                    }
-                    Console.SetCursorPosition(stolbec, pos);
+                    if (klavisha.Key == ConsoleKey.UpArrow)
+                        goup();
+                    if (klavisha.Key == ConsoleKey.DownArrow)
+                        godown();
                     Console.Write("->");
-                    Console.SetCursorPosition(stolbec + 2, pos);
-                    if (stolbec == (int)admin_enum.name)
-                        newname = changing_string(newname, newname_length);
-                    else if (stolbec == (int)admin_enum.password)
-                        newpassword = changing_string(newpassword, newpassword_length);
-                    else if (stolbec == (int)admin_enum.id)
-                        newid = Convert.ToInt32(changing_string(newid.ToString(), newid_length));
-                    else if (stolbec == (int)admin_enum.job_title)
-                        newjobtitle = Convert.ToInt32(changing_string(newjobtitle.ToString(), newjobtitle_length));
-                    y.key = Console.ReadKey();
+                    if (pozitsia == 3)
+                        nick = Console.ReadLine();
+                    else if (pozitsia == 4d)
+                        parol = Console.ReadLine();
+                    else if (pozitsia == 5)
+                        role = Console.ReadLine();
+                    else if (pozitsia == 6)
+                        id = Convert.ToInt32(Console.ReadLine());
+                    klavisha = Console.ReadKey();
                 }
-                y.admin_panel_workers.Add(newperson);
-                y.admin_serialize(y.admin_panel_workers, "admin_Person.json");
+                Class2.Human.Add(newperson);
+                Class2.MySerialize(Class2.Human, "Human.json");
             }
             catch (Exception)
             {
+                Console.Clear();
                 Console.WriteLine("Видимо, вы допустили ошибку. Попробуйте заново");
             }
 
@@ -106,178 +92,205 @@ namespace beletskiy
 
         public void delete()
         {
-            y.admin_panel_workers.Remove(y.admin_panel_workers[pos - 4]);
+            Class2.Human.Remove(Class2.Human[pozitsia - 4]);
             Console.Clear();
-            y.admin_serialize(y.admin_panel_workers, "admin_Person.json");
+            Class2.MySerialize(Class2.Human, "Human.json");
         }
 
         public void read()
         {
-            pos = 4;
-            foreach (var a in y.admin_panel_workers)
+            pozitsia = 3;
+            foreach (var a in Class2.Human)
             {
-                Console.SetCursorPosition((int)admin_enum.name, pos);
-                Console.Write("  " + a.username);
-                Console.SetCursorPosition((int)admin_enum.password, pos);
-                Console.Write("  " + a.password);
-                Console.SetCursorPosition((int)admin_enum.id, pos);
-                Console.Write("  " + a.idi);
-                Console.SetCursorPosition((int)admin_enum.job_title, pos);
-                Console.Write("  " + a.enum_job_title);
-                pos++;
+                Console.SetCursorPosition(2, pozitsia);
+                Console.WriteLine(a.nick);
+                Console.SetCursorPosition(25, pozitsia);
+                Console.WriteLine(a.parol);
+                Console.SetCursorPosition(45, pozitsia);
+                Console.WriteLine(a.role);
+                Console.SetCursorPosition(60, pozitsia);
+                Console.WriteLine(a.id);
+                pozitsia++;
             }
-            pos = 4;
-            Console.SetCursorPosition((int)admin_enum.name, 4);
+            pozitsia = 3;
+            Console.SetCursorPosition(3, 0);
         }
 
         public void update()
         {
-            y.key = new ConsoleKeyInfo((char)ConsoleKey.A, ConsoleKey.A, false, false, false);
+            Console.Clear();
+            zagolovok();;
+            Console.WriteLine("  " + Class2.Human[pozitsia-3].nick);
+            Console.WriteLine("  " + Class2.Human[pozitsia - 3].parol);
+            Console.WriteLine("  " + Class2.Human[pozitsia - 3].role);
+            Console.WriteLine("  " + Class2.Human[pozitsia-3].id);
+            pozitsia++;
             string change = "";
             int change_pos = 0;
-            if (stolbec == (int)admin_enum.name)
+            while (pozitsia != 6)
             {
-                try
+                if (pozitsia == 2)
                 {
-                    change = y.admin_panel_workers[pos - 4].username;
-                    change_pos = change.Length + 1;
-                    Console.SetCursorPosition(change.Length + 1, pos);
-                    change = changing_string(change, change_pos);
-                    y.admin_panel_workers[pos - 4].username = change;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-            else if (stolbec == (int)admin_enum.password)
-            {
-                try
-                {
-                    change = Convert.ToString(y.admin_panel_workers[pos - 4].password);
-                    Console.SetCursorPosition(change.Length + 2 + (int)admin_enum.password, pos);
-                    change_pos = change.Length + 1;
-                    change = changing_string(change, change_pos);
-                    y.admin_panel_workers[pos - 4].password = change;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-            else if (stolbec == (int)admin_enum.id)
-            {
-                try
-                {
-                    change = Convert.ToString(y.admin_panel_workers[pos - 4].idi);
-                    Console.SetCursorPosition(change.Length + 1 + (int)admin_enum.id, pos);
-                    change_pos = change.Length + 1;
-                    change = changing_string(change, change_pos);
-                    y.admin_panel_workers[pos - 4].idi = Convert.ToInt32(change);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-            else if (stolbec == (int)admin_enum.job_title)
-            {
-                try
-                {
-                    change = Convert.ToString(y.admin_panel_workers[pos - 4].enum_job_title);
-                    Console.SetCursorPosition(change.Length + 1 + (int)admin_enum.job_title, pos);
-                    change_pos = change.Length + 1;
-                    change = changing_string(change, change_pos);
-                    y.admin_panel_workers[pos - 4].enum_job_title = Convert.ToInt32(change);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-            }
-            y.admin_serialize(y.admin_panel_workers, "admin_Person.json");
-        }
-    }
-        static void strlochki(ConsoleKeyInfo klavisha, int pozitsia)
-        {
-            switch (klavisha)
-            {
-                case ConsoleKey.DownArrow:
+                    try
                     {
-                        Console.WriteLine("  ");
-                        pozitsia++;
-                        if (pozitsia > 5)
-                            pozitsia = 5;
-                        return pozitsia;
-
+                        while (klavisha.Key != ConsoleKey.Enter)
+                        {
+                            change = Class2.Human[pozitsia - 3].nick;
+                            Console.SetCursorPosition(Class2.Human[pozitsia - 3].nick.Length + 2, 2);
+                            klavisha = Console.ReadKey();
+                            if (klavisha.Key == ConsoleKey.Backspace) 
+                            change.Remove(change.Length, 1);
+                            else
+                                change += klavisha.KeyChar;
+                            Class2.Human[pozitsia - 3].nick = change;
+                        }
                     }
-                case ConsoleKey.UpArrow:
+                    catch (Exception ex)
                     {
-                        Console.Write("  ");
-                        pos--;
-                        if (pos < 4)
-                            pos = 4;
-                        break;
+                        Console.WriteLine(ex.ToString());
                     }
+                }
+                else if (pozitsia == 3)
+                {
+                    try
+                    {
+                        while (klavisha.Key != ConsoleKey.Enter)
+                        {
+                            change = Class2.Human[pozitsia - 3].parol;
+                            Console.SetCursorPosition(Class2.Human[pozitsia - 3].parol.Length + 2, 2);
+                            klavisha = Console.ReadKey();
+                            if (klavisha.Key == ConsoleKey.Backspace)
+                                change.Remove(change.Length, 1);
+                            else
+                                change += klavisha.KeyChar;
+                            Class2.Human[pozitsia - 3].parol = change;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+                else if (pozitsia == 4)
+                {
+                    try
+                    {
+                        while (klavisha.Key != ConsoleKey.Enter)
+                        {
+                            change = Class2.Human[pozitsia - 3].role;
+                            Console.SetCursorPosition(Class2.Human[pozitsia - 3].role.Length + 2, 2);
+                            klavisha = Console.ReadKey();
+                            if (klavisha.Key == ConsoleKey.Backspace) 
+                            change.Remove(change.Length, 1);
+                            else
+                                change += klavisha.KeyChar;
+                            Class2.Human[pozitsia - 3].role = change;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+                else if (pozitsia == 5)
+                {
+                    try
+                    {
+                        while (klavisha.Key != ConsoleKey.Enter)
+                        {
+                            change = Class2.Human[pozitsia - 3].id.ToString();
+                            Console.SetCursorPosition(Class2.Human[pozitsia - 3].id + 2, 2);
+                            klavisha = Console.ReadKey();
+                            if (klavisha.Key == ConsoleKey.Backspace) 
+                            change.Remove(change.Length, 1);
+                            else
+                                change += klavisha.KeyChar;
+                            Class2.Human[pozitsia - 3].id = Convert.ToInt32(change);
+                        };
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
             }
+            Class2.MySerialize(Class2.Human, "Human.json");
         }
-        public static string changing_string(string change_string, int change_string_pos)
+        private void goup()
         {
-            while (y.key.Key != ConsoleKey.Enter)
+            Console.WriteLine("  ");
+            pozitsia--;
+            if (pozitsia < 3)
+                pozitsia = 3;
+        }
+        private void godown()
+        {
+            Console.WriteLine("  ");
+            pozitsia++;
+            if (pozitsia > Class2.Human.Count() - 1)
+                pozitsia = Class2.Human.Count() - 1;
+        }
+        private void search()
+        {
+            string poisk = "";
+            pozitsia = 2;
+            Console.Clear();
+            Console.WriteLine("Чтобы начать поиск, выберите атрибут:");
+            Console.WriteLine("  ID");
+            Console.WriteLine("  Роль");
+            Console.WriteLine("  Имя");
+            Console.WriteLine("Для выхода нажмите Escape");
+            Console.SetCursorPosition(1, 0);
+            while (klavisha.Key != ConsoleKey.Enter)
             {
-                y.key = Console.ReadKey();
-                if (y.key.Key == ConsoleKey.UpArrow || y.key.Key == ConsoleKey.DownArrow)
+                klavisha = Console.ReadKey();
+                if (klavisha.Key == ConsoleKey.UpArrow)
+                    goup();
+                if (klavisha.Key == ConsoleKey.DownArrow)
+                    godown();
+            }
+            Console.SetCursorPosition(5, 0);
+            Console.WriteLine("Поиск: ");
+            Console.SetCursorPosition(5, 0);
+            poisk = Console.ReadLine();
+            foreach (var a in Class2.Human)
+            {
+                Console.Clear();
+                if ((poisk == a.id.ToString()) || (poisk == a.role) || (poisk == a.nick))
                 {
-                    break;
-                }
-                if (y.key.Key == ConsoleKey.Backspace && change_string.Length > 0)
-                {
-                    change_string = change_string.Remove(change_string.Length - 1);
-                    login.clear(change_string, change_string_pos);
-                    change_string_pos--;
-                }
-                else if (y.key.Key != ConsoleKey.Enter || y.key.Key == ConsoleKey.UpArrow || y.key.Key == ConsoleKey.DownArrow)
-                {
-                    change_string_pos++;
-                    change_string += y.key.KeyChar;
+                    zagolovok();
+                    Console.SetCursorPosition(2, pozitsia);
+                    Console.WriteLine(a.nick);
+                    Console.SetCursorPosition(25, pozitsia);
+                    Console.WriteLine(a.parol);
+                    Console.SetCursorPosition(45, pozitsia);
+                    Console.WriteLine(a.role);
+                    Console.SetCursorPosition(60, pozitsia);
+                    Console.WriteLine(a.id);
+                    pozitsia++;
                 }
             }
-            return change_string;
         }
-    private static void search()
-    {
-        Console.SetCursorPosition(70, 10);
-        Console.Clear();
-        head();
-        Console.SetCursorPosition(70, 8);
-        Console.WriteLine("Для выхода нажмите Escape");
-        Console.SetCursorPosition(70, 10);
-        search_string = changing_string(search_string, search_pos);
+        private void zagolovok()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("Меню администратора ");
+            Console.WriteLine("______________________________________________________________________________________________________________________");
+            Console.SetCursorPosition(2, 2);
+            Console.WriteLine("Имя");
+            Console.SetCursorPosition(25, 2);
+            Console.WriteLine("Пароль");
+            Console.SetCursorPosition(45, 2);
+            Console.WriteLine("Роль");
+            Console.SetCursorPosition(60, 2);
+            Console.WriteLine("ID");
+        }
+        private void head()
+        {
+            Console.SetCursorPosition(20, 0);
+            Console.WriteLine("Меню администратора ");
+            Console.WriteLine("______________________________________________________________________________________________________________________");
+        }
+    }
 
-        while (y.key.Key != ConsoleKey.Escape)
-        {
-            show_search();
-            y.key = Console.ReadKey();
-        }
-    }
-    private static void show_search()
-    {
-        Console.Clear();
-        head();
-        foreach (var a in y.admin_panel_workers)
-        {
-            if (search_string == a.idi.ToString() || search_string == a.username || search_string == a.enum_job_title.ToString() || search_string == a.password)
-            {
-                Console.SetCursorPosition((int)admin_enum.name, pos);
-                Console.Write("  " + a.username);
-                Console.SetCursorPosition((int)admin_enum.password, pos);
-                Console.Write("  " + a.password);
-                Console.SetCursorPosition((int)admin_enum.id, pos);
-                Console.Write("  " + a.idi);
-                Console.SetCursorPosition((int)admin_enum.job_title, pos);
-                Console.Write("  " + a.enum_job_title);
-                pos++;
-            }
-        }
-    }
 }

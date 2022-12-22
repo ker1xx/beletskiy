@@ -18,6 +18,7 @@ namespace beletskiy
             Console.WriteLine("  " + "пароль: ");
             Console.WriteLine("  " + "войти");
             Console.WriteLine("  " + "ввести заново");
+            string admin_nick = "";
             while (pravilno != 1)
             {
 
@@ -39,21 +40,21 @@ namespace beletskiy
                 if (klavisha.Key == ConsoleKey.UpArrow)
                 {
                     Console.SetCursorPosition(0, pozitsia);
-                    pozitsia = goup_login(pozitsia);
+                    goup(pozitsia);
                 }
                 if (klavisha.Key == ConsoleKey.DownArrow)
                 {
                     Console.SetCursorPosition(0, pozitsia);
-                    pozitsia = godown_login(pozitsia);
+                    pozitsia = godown(pozitsia);
                 }
                 if (pozitsia == 4 && klavisha.Key == ConsoleKey.Enter)
-                    pravilno = proverka(nick, password);
+                    pravilno = proverka(nick, password,login_nick);
                 Console.SetCursorPosition(0, pozitsia);
                 Console.WriteLine("->");
                 klavisha = Console.ReadKey();
             }
         }
-        static int goup_login(int pozitsia)
+        static int goup(int pozitsia)
         {
             Console.WriteLine("  ");
             pozitsia--;
@@ -61,7 +62,7 @@ namespace beletskiy
                 pozitsia = 2;
             return pozitsia;
         }
-        static int godown_login(int pozitsia)
+        static int godown(int pozitsia)
         {
             Console.WriteLine("  ");
             pozitsia++;
@@ -117,6 +118,7 @@ namespace beletskiy
             {
                 if (a.nick == nick && a.parol == parol)
                 {
+                    
                     gotovo = 1;
                     Console.SetCursorPosition(6, 0);
                     Console.WriteLine("вы вошли");
