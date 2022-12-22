@@ -37,22 +37,24 @@ namespace beletskiy
                     password = "";
                     nick = "";
                 }
+                if (pozitsia == 4 && klavisha.Key == ConsoleKey.Enter)
+                    pravilno = proverka(nick, password);
                 if (klavisha.Key == ConsoleKey.UpArrow)
                 {
                     Console.SetCursorPosition(0, pozitsia);
                     goup(pozitsia);
                 }
-                if (klavisha.Key == ConsoleKey.DownArrow)
+                else if (klavisha.Key == ConsoleKey.DownArrow)
                 {
                     Console.SetCursorPosition(0, pozitsia);
                     pozitsia = godown(pozitsia);
                 }
-                if (pozitsia == 4 && klavisha.Key == ConsoleKey.Enter)
-                    pravilno = proverka(nick, password,login_nick);
                 Console.SetCursorPosition(0, pozitsia);
                 Console.WriteLine("->");
                 klavisha = Console.ReadKey();
             }
+            Class3 admin = new();
+            admin.admin();
         }
         static int goup(int pozitsia)
         {
@@ -120,13 +122,14 @@ namespace beletskiy
                 {
                     
                     gotovo = 1;
-                    Console.SetCursorPosition(6, 0);
+                    Console.SetCursorPosition(2, 0);
                     Console.WriteLine("вы вошли");
                     break;
                 }
             }
             nick = "";
             parol = "";
+            Console.SetCursorPosition(3, 0);
             return gotovo;
         }
         static void zagolovok()

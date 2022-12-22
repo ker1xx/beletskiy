@@ -5,10 +5,17 @@ namespace beletskiy
     internal static class Class2
     {
 
-        public static T MyDeserialize<T>(this string FileName)
+        public static T MyDeserialize<T>(string FileName)
         {
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string json = File.ReadAllText(desktop + "\\" + FileName);
+            string json = "";
+            if (File.Exists(desktop + "\\" + FileName))
+                json = File.ReadAllText(desktop + "\\" + FileName);
+            else
+            {
+                File.Create(desktop + "\\" + FileName);
+                json = File.ReadAllText(desktop + "\\" + FileName);
+            }
             T Human = JsonConvert.DeserializeObject<T>(json);
             return Human;
         }
@@ -17,7 +24,13 @@ namespace beletskiy
         {
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string json = JsonConvert.SerializeObject(Human);
-            File.WriteAllText(desktop + "\\" + FileName, json);
+            if (File.Exists(desktop + "\\" + FileName))
+                File.WriteAllText(desktop + "\\" + FileName, json);
+            else
+            {
+                File.Create(desktop + "\\" + FileName);
+                File.WriteAllText(desktop + "\\" + FileName, json);
+            }
         }
     }
 }
